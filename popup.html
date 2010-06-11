@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body {
+			background: #f5f7f0;
+			width: 350px;
+			margin: 15px;
+		}
+		
+		h1 {
+			background: url(logo.png) no-repeat 0 0;
+			width: 154px;
+			height: 47px;
+			text-indent: -99999px;
+			color: #333;
+			margin: 0 auto 15px;
+			text-shadow: rgba(250, 250, 250, 0.6) 2px 2px 0;
+		}
+		
+		article {
+			background: #fff;
+			margin: 0 15px 15px 0;
+			padding: 8px;
+			-webkit-border-radius: 4px;
+			-webkit-box-shadow: rgba(0, 0, 0, 1);
+			border-radius: 4px;
+			clear: both;
+			overflow: hidden;
+		}
+		
+		article a:link, article a:active, article a:visited {
+			color: #39B2E5;
+			padding: 1px 2px;
+			text-decoration: none;
+		}
+		
+		article a:hover {
+			text-decoration: underline;
+		}
+		
+		article figure {
+			float: left;
+			margin: 0 10px 0 0;
+		}
+		
+		article figure img {
+			width: 55px;
+		}
+		
+		article h2 {
+			font-family: Arial, sans-serif;
+			font-size: 20px;
+			margin: 0;
+		}
+		
+		article p {
+			font-size: 14px;
+			margin: 0;
+		}
+		
+		article span {
+			color: #aaa;
+			font-size: 12px;
+		}
+		
+		footer {
+			margin: 10px 0;
+		}
+		
+		footer p {
+			font-size: 12px;
+			color: #999;
+			text-align: center;
+		}
+		
+		footer a:link, footer a:active, footer a:visited {
+			color: #666;
+			text-decoration: none;
+		}
+		
+		footer a:hover {
+			text-decoration: underline;
+		}
+		
+		#setUsername {
+			display: none;
+		}
+		
+		.hidden {
+			display: none;
+		}		
+	</style>
+	<script type="text/javascript"
+	 src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script>
+	$(document).ready(function() {		
+		if(!localStorage["gowallaUsername"] || localStorage["gowallaUsername"] == "") {
+			$('#friendsFeed').addClass('hidden');
+			$('#setUsername').slideDown('slow');
+		} else {
+			$('#friendsFeed').removeClass('hidden');
+			var now = (new Date()).getTime()/1000;
+			if(!localStorage.cache || now - parseInt(localStorage.time) > 600000) {
+				fetchGowalla();
+			} else {
+				$('#friendsFeed').html(localStorage.cache);
+			}
+		}
+		
+		$("form").submit(function() {
+			localStorage.setItem("gowallaUsername", $("input[name='username']").val());
+			$('#setUsername').slideUp("fast");
+			$('#friendsFeed').slideDown('slow');
+			fetchGowalla();
+			return false;
+		});
+	});
+	
+	function fetchGowalla() {				
+		$.ajax({
+			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/friends_visits.atom',
+			success: function(data) {
+				if(data != null) {
+					html = '';
+					$(data).find('entry').each(function() {
+						html += '<article>';
+						html += '<figure><img src="'+$(this).find('link').last().attr('href')+'" alt="spot icon" class="itemIcon"></figure>';
+						html += '<h2><a href="'+$(this).find('uri').first().text()+'" title="'+$(this).find('name').first().text()+'" target="_blank">'+$(this).find('name').first().text()+'</a></h2>';
+						html += '<p>@<a href="'+$(this).find('link').last().prev().attr('href')+'" title="'+$(this).find('title').last().text()+'" target="_blank">'+$(this).find('title').last().text()+'</a></p>';
+						html += '<span>Checked in '+prettyDate($(this).find('published').first().text())+'</span>';
+						html += '</article>';
+					});
+					$('#friendsFeed').html(html);
+					localStorage.cache = html;
+					localStorage.time = (new Date()).getTime()/1000;
+				} else {
+					$('#friendsFeed').html('<li>Could not find your friends feed. Please try again or verify your username is correct.</li>');
+				}
+			}
+		});
+	}
+	
+	function prettyDate(date_str){
+	  var time = ('' + date_str+'+00:00').replace(/-/g,"/").replace(/[TZ]/g," ");
+	  var seconds = (new Date() - new Date(time)) / 1000;
+	  var token = 'ago', list_choice = 1;
+	  if (seconds < 0) {
+	    seconds = Math.abs(seconds);
+	    token = 'from now';
+	    list_choice = 2;
+	  }
+	  var i = 0, format;
+	  while (format = time_formats[i++]) if (seconds < format[0]) {
+	    if (typeof format[2] == 'string')
+	      return format[list_choice];
+	    else
+	      return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+	  }
+	  return time;
+	};
+	var time_formats = [
+	  [60, 'just now', 1], // 60
+	  [120, '1 minute ago', '1 minute from now'], // 60*2
+	  [3600, 'minutes', 60], // 60*60, 60
+	  [7200, '1 hour ago', '1 hour from now'], // 60*60*2
+	  [86400, 'hours', 3600], // 60*60*24, 60*60
+	  [172800, 'yesterday', 'tomorrow'], // 60*60*24*2
+	  [604800, 'days', 86400], // 60*60*24*7, 60*60*24
+	  [1209600, 'last week', 'next week'], // 60*60*24*7*4*2
+	  [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
+	  [4838400, 'last month', 'next month'], // 60*60*24*7*4*2
+	  [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+	  [58060800, 'last year', 'next year'], // 60*60*24*7*4*12*2
+	  [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+	  [5806080000, 'last century', 'next century'], // 60*60*24*7*4*12*100*2
+	  [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+	];
+	</script>
+<body>
+	<header>
+		<h1>Gowalla Friends</h1>
+	</header>
+	
+	<section id="setUsername">
+		<form method="post">
+			<label>Gowalla Username:</label><br />
+			<input id="gowallaUsername" type="text" name="username"><br />
+			<input type="submit" value="Save">
+		</form>
+	</section>
+	
+	<section id="friendsFeed" class="hidden">
+		<article>
+			<p>Loading Friends Feed...</p>
+		</article>
+	</section>
+	
+	<footer>
+		<p>Developed by <a href="http://jamesfleeting.com" title="James Fleeting Is Awesome" target="_blank">James Fleeting</a> of <a href="http://monkeecreate.com" title="monkeeCreate" target="_blank">monkeeCreate</a></p>
+	</footer>
+</body>
+</html>

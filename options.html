@@ -1,0 +1,31 @@
+<html>
+<head>
+	<title>Gowalla Friends Extension</title>
+	<script type="text/javascript">
+	function save_options() {
+		localStorage["gowallaUsername"] = document.getElementById("gowallaUsername").value;
+
+		var status = document.getElementById("status");
+		status.innerHTML = "Options Saved.";
+		setTimeout(function() {
+			status.innerHTML = "";
+		}, 1600);
+	}
+
+	function restore_options() {
+		if (!localStorage["gowallaUsername"]) {
+			return;
+		}
+	
+		document.getElementById("gowallaUsername").value = localStorage["gowallaUsername"];
+	}
+
+	</script>
+</head>
+<body onload="restore_options()">
+	<div id="status"></div>
+	<label>Gowalla Username:</label>
+	<input id="gowallaUsername" type="text" name="username">
+	<button onclick="save_options()">Save</button>
+</body>
+</html>
