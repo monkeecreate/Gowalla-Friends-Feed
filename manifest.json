@@ -1,6 +1,6 @@
 {
 	"name": "Gowalla Friends",
-	"version": "1.0",
+	"version": "1.1",
 	"description": "Displays your friends latest checkins. Developed by James Fleeting of monkeeCreate.",
 	"icons": {
 		"128": "gowallaCling_icon.png"

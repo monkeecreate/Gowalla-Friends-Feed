@@ -102,7 +102,7 @@
 		} else {
 			$('#friendsFeed').removeClass('hidden');
 			var now = (new Date()).getTime()/1000;
-			if(!localStorage.cache || now - parseInt(localStorage.time) > 600000) {
+			if(!localStorage.cache || now - parseInt(localStorage.time) > 600) {
 				fetchGowalla();
 			} else {
 				$('#friendsFeed').html(localStorage.cache);
