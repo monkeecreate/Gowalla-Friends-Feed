@@ -1,11 +1,11 @@
 {
 	"name": "Gowalla Friends",
-	"version": "1.1",
+	"version": "1.2",
 	"description": "Displays your friends latest checkins. Developed by James Fleeting of monkeeCreate.",
 	"icons": {
 		"128": "gowallaCling_icon.png"
 	},
-
+	"background_page": "background.html",
 	"browser_action": {
 		"popup": "popup.html",
 		"default_title": "Gowalla Friends",
@@ -13,6 +13,6 @@
 	},
 	"options_page": "options.html",
 	"permissions": [
-		"http://gowalla.com/", "https://gowalla.com/"
+		"notifications","http://gowalla.com/", "https://gowalla.com/"
 	]
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript"
+	 src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script>
+	$(document).ready(function() {
+		fetchGowalla();
+		setInterval(fetchGowalla, 60000 * 5);
+	});
+	
+	function fetchGowalla() {
+		$.ajax({
+			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/friends_visits.atom',
+			success: function(data) {
+				if(data != null) {
+					html = '';
+					count = 0;
+					date = null;
+					$(data).find('entry').each(function() {
+				    	date = new Date($(this).find('updated').first().text());
+				    	if(date.getTime() > localStorage.lastRead)
+				      		count++;
+					});
+
+					if(count > 0) {
+						chrome.browserAction.setTitle({title: "Recent Friends Activity"});
+						chrome.browserAction.setBadgeText({text: count.toString()});
+						chrome.browserAction.setBadgeBackgroundColor({color: [57,161,232,255]});
+					} else {
+						chrome.browserAction.setTitle({title: "No Friends Activity"});
+						chrome.browserAction.setBadgeText({text: ""});
+					}
+				}
+			}
+		});
+	}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

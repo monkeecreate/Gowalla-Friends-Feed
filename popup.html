@@ -101,12 +101,9 @@
 			$('#setUsername').slideDown('slow');
 		} else {
 			$('#friendsFeed').removeClass('hidden');
-			var now = (new Date()).getTime()/1000;
-			if(!localStorage.cache || now - parseInt(localStorage.time) > 600) {
-				fetchGowalla();
-			} else {
-				$('#friendsFeed').html(localStorage.cache);
-			}
+			chrome.browserAction.setTitle({title: "No Friends Activity"});
+			chrome.browserAction.setBadgeText({text: ""});
+			fetchGowalla();
 		}
 		
 		$("form").submit(function() {
@@ -124,7 +121,10 @@
 			success: function(data) {
 				if(data != null) {
 					html = '';
-					$(data).find('entry').each(function() {
+					$(data).find('entry').each(function(index) {
+						if(index == 0)
+							updated = new Date($(this).find('updated').first().text());	
+										
 						html += '<article>';
 						html += '<figure><img src="'+$(this).find('link').last().attr('href')+'" alt="spot icon" class="itemIcon"></figure>';
 						html += '<h2><a href="'+$(this).find('uri').first().text()+'" title="'+$(this).find('name').first().text()+'" target="_blank">'+$(this).find('name').first().text()+'</a></h2>';
@@ -133,8 +133,8 @@
 						html += '</article>';
 					});
 					$('#friendsFeed').html(html);
-					localStorage.cache = html;
-					localStorage.time = (new Date()).getTime()/1000;
+					
+					localStorage.lastRead = updated.getTime();
 				} else {
 					$('#friendsFeed').html('<li>Could not find your friends feed. Please try again or verify your username is correct.</li>');
 				}
