@@ -9,7 +9,7 @@
 		setInterval(fetchGowalla, 60000 * 5);
 	});
 	
-	function fetchGowalla(init) {
+	function fetchGowalla(initialRun) {
 		$.ajax({
 			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/friends_visits.atom',
 			success: function(data) {
@@ -22,7 +22,7 @@
 				    	if(date.getTime() > localStorage.lastRead)
 				      		count++;
 						
-						if(init = true && index == 0) {
+						if(initialRun == true && index == 0) {
 							localStorage.lastRead = date.getTime();
 							localStorage.notified = 0;
 							localStorage.badgeCount = 0;

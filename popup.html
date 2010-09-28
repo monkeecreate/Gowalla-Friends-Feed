@@ -5,9 +5,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script src="iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-	$(document).ready(function() {
-		
-			
+	$(document).ready(function() {			
 		if(!localStorage["gowallaUsername"] || localStorage["gowallaUsername"] == "") {
 			$('#friendsFeed').addClass('hidden');
 			$('input[name=username]').val(localStorage["gowallaUsername"]);
