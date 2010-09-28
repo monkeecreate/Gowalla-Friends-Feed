@@ -5,11 +5,11 @@
 	 src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script>
 	$(document).ready(function() {
-		fetchGowalla();
+		fetchGowalla(true);
 		setInterval(fetchGowalla, 60000 * 5);
 	});
 	
-	function fetchGowalla() {
+	function fetchGowalla(init) {
 		$.ajax({
 			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/friends_visits.atom',
 			success: function(data) {
@@ -17,14 +17,20 @@
 					html = '';
 					count = 0;
 					date = null;
-					$(data).find('entry').each(function() {
+					$(data).find('entry').each(function(index) {
 				    	date = new Date($(this).find('updated').first().text());
 				    	if(date.getTime() > localStorage.lastRead)
 				      		count++;
+						
+						if(init = true && index == 0) {
+							localStorage.lastRead = date.getTime();
+							localStorage.notified = 0;
+							localStorage.badgeCount = 0;
+						}
 					});
 
 					if(count > 0) {
-						if(localStorage.notified == 0 || count > localStorage.badgeCount) {
+						if(localStorage.desktopNotifications == 1 && (localStorage.notified == 0 || count > localStorage.badgeCount)) {
 							if(count == 1) {
 								var notification = webkitNotifications.createNotification(
 						    		'gowallaCling_icon.png',

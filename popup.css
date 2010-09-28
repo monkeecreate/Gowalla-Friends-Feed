@@ -1,0 +1,89 @@
+body {
+	background: #f5f7f0;
+	width: 350px;
+	margin: 15px;
+}
+
+h1 a:link, h1 a:active, h1 a:visited {
+	background: url(logo.png) no-repeat 0 0;
+	display: block;
+	width: 154px;
+	height: 47px;
+	text-indent: -99999px;
+	color: #333;
+	margin: 0 auto 15px;
+	text-shadow: rgba(250, 250, 250, 0.6) 2px 2px 0;
+}
+
+article {
+	background: #fff;
+	margin: 0 15px 15px 0;
+	padding: 8px;
+	-webkit-border-radius: 4px;
+	-webkit-box-shadow: rgba(0, 0, 0, 1);
+	border-radius: 4px;
+	clear: both;
+	overflow: hidden;
+}
+
+article a:link, article a:active, article a:visited {
+	color: #39B2E5;
+	padding: 1px 2px;
+	text-decoration: none;
+}
+
+article a:hover {
+	text-decoration: underline;
+}
+
+article figure {
+	float: left;
+	margin: 0 10px 0 0;
+}
+
+article figure img {
+	width: 55px;
+}
+
+article h2 {
+	font-family: Arial, sans-serif;
+	font-size: 20px;
+	margin: 0;
+}
+
+article p {
+	font-size: 14px;
+	margin: 0;
+}
+
+article span {
+	color: #aaa;
+	font-size: 12px;
+}
+
+footer {
+	margin: 10px 0;
+}
+
+footer p {
+	font-size: 12px;
+	color: #999;
+	text-align: center;
+}
+
+footer a:link, footer a:active, footer a:visited {
+	color: #666;
+	text-decoration: none;
+}
+
+footer a:hover {
+	text-decoration: underline;
+}
+
+#setUsername {
+	display: none;
+}
+
+.hidden {
+	display: none;
+}
