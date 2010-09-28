@@ -24,8 +24,27 @@
 					});
 
 					if(count > 0) {
+						if(localStorage.notified == 0 || count > localStorage.badgeCount) {
+							if(count == 1) {
+								var notification = webkitNotifications.createNotification(
+						    		'gowallaCling_icon.png',
+								     'Gowalla Friends Activity',
+								     'You\'ve had '+count.toString()+' friend checkin via Gowalla recently.'
+							  	);
+							} else {
+								var notification = webkitNotifications.createNotification(
+						    		'gowallaCling_icon.png',
+								     'Gowalla Friends Activity',
+								     'You\'ve had '+count.toString()+' friends checkin via Gowalla recently.'
+							  	);
+							}
+						    notification.show();
+						}
+						
+						localStorage.badgeCount = count;
+						badgeText = count > 99 ? "99+" : count.toString();
 						chrome.browserAction.setTitle({title: "Recent Friends Activity"});
-						chrome.browserAction.setBadgeText({text: count.toString()});
+						chrome.browserAction.setBadgeText({text: badgeText});
 						chrome.browserAction.setBadgeBackgroundColor({color: [57,161,232,255]});
 					} else {
 						chrome.browserAction.setTitle({title: "No Friends Activity"});
