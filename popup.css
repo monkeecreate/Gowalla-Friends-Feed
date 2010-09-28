@@ -81,7 +81,169 @@ footer a:hover {
 }
 
 #setUsername {
-	display: none;
+	overflow: hidden;
+}
+
+form {
+	margin: 0 0 45px;
+	text-align: center;
+}
+
+form label {
+	float: left;
+	font: 20px/1em 'Droid Sans', sans-serif;
+	text-shadow: rgba(255,255,255,.5) 0 1px 0;
+	color: hsl(0, 0%, 40%);
+}
+
+form input[type="text"], form input[type="text"]:focus {
+	outline: none;
+	padding: .5em .6em .4em .6em;
+	margin: 4px 0 35px;
+	display: inline-block;
+	width: 315px;
+	height: 25px;
+	font: 25px/1em 'Droid Sans', sans-serif;
+	-webkit-border-radius: 8px;
+	background-image: -webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) ));
+	color: hsl(0, 0%, 40%) !important;
+	background-color: #fff;
+	border-top: 1px solid rgba(255,255,255,0.8);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	-webkit-transition: background .2s ease-in-out;
+	-webkit-box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, hsl(0, 0%, 60%) 0 .1em 3px, hsl(0, 0%, 45%) 0 .3em 1px, rgba(0,0,0,0.2) 0 .5em 5px;
+}
+
+form input[type="submit"] {
+	margin: 20px auto 0;
+}
+
+.button {
+	text-decoration: none;
+	font: 24px/1em 'Droid Sans', sans-serif;
+	font-weight: bold;
+	text-shadow: rgba(255,255,255,.5) 0 1px 0;
+	-webkit-user-select: none;
+	padding: .5em .6em .4em .6em;
+	margin: .5em;
+	display: inline-block;
+	position: relative;
+	-webkit-border-radius: 8px;
+	border-top: 1px solid rgba(255,255,255,0.8);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	background-image: -webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) ));
+	-webkit-transition: background .2s ease-in-out;
+	color: hsl(0, 0%, 40%) !important;
+	background-color: hsl(0, 0%, 75%);
+	-webkit-box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, hsl(0, 0%, 60%) 0 .1em 3px, hsl(0, 0%, 45%) 0 .3em 1px, rgba(0,0,0,0.2) 0 .5em 5px;
+}
+
+.button:hover {
+	background-color: hsl(0, 0%, 83%);
+}
+
+.button:active {
+	background-image: -webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0) ));
+	-webkit-box-shadow: inset rgba(255,255,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.2) 0 -0.1em .3em, rgba(0,0,0,0.4) 0 .1em 1px, rgba(0,0,0,0.2) 0 .2em 6px;
+	-webkit-transform: translateY(.2em);
+}
+
+.button:focus {
+	outline: none;
+	color: rgba(254,255,255,0.9) !important;
+	text-shadow: rgba(0,0,0,0.2) 0 1px 2px;
+}
+
+.iPhoneCheckContainer {
+	position: relative;
+	height: 27px;
+	cursor: pointer;
+	overflow: hidden;
+	display: inline-block;
+	margin: -4px 0 0;
+}
+
+.iPhoneCheckContainer input {
+	position: absolute;
+	top: 5px;
+	left: 30px;
+	opacity: 0;
+}
+
+.iPhoneCheckContainer label {
+	white-space: nowrap;
+	font-size: 17px;
+	line-height: 17px;
+	font-weight: bold;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	cursor: pointer;
+	display: block;
+	height: 27px;
+	position: absolute;
+	width: auto;
+	top: 0;
+	padding-top: 5px;
+	overflow: hidden;
+}
+
+.iPhoneCheckContainer, .iPhoneCheckContainer label {
+	user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+}
+
+.iPhoneCheckDisabled {
+	opacity: 0.5;
+}
+
+label.iPhoneCheckLabelOn {
+	color: #fff;
+	background: url('/iphone-style-checkboxes/on.png?1282083753') no-repeat;
+	text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+	left: 0;
+	padding-top: 5px;
+}
+
+label.iPhoneCheckLabelOn span {
+	padding-left: 8px;
+}
+
+label.iPhoneCheckLabelOff {
+	color: #8b8b8b;
+	background: url('/iphone-style-checkboxes/off.png?1282083753') no-repeat right 0;
+	text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.6);
+	text-align: right;
+	right: 0;
+}
+
+label.iPhoneCheckLabelOff span {
+	padding-right: 8px;
+}
+
+.iPhoneCheckHandle {
+	display: block;
+	height: 27px;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	background: url('/iphone-style-checkboxes/slider_left.png?1282083753') no-repeat;
+	padding-left: 3px;
+}
+
+.iPhoneCheckHandleRight {
+	height: 100%;
+	width: 100%;
+	padding-right: 3px;
+	background: url('/iphone-style-checkboxes/slider_right.png?1282083753') no-repeat right 0;
+}
+
+.iPhoneCheckHandleCenter {
+	height: 100%;
+	width: 100%;
+	background: url('/iphone-style-checkboxes/slider_center.png?1282083753');
 }
 
 .hidden {

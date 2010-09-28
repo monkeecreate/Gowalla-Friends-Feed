@@ -3,13 +3,21 @@
 <head>
 	<link rel="stylesheet" href="popup.css" type="text/css">	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="iphone-style-checkboxes.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-	$(document).ready(function() {		
+	$(document).ready(function() {
+		
+			
 		if(!localStorage["gowallaUsername"] || localStorage["gowallaUsername"] == "") {
 			$('#friendsFeed').addClass('hidden');
+			$('input[name=username]').val(localStorage["gowallaUsername"]);
+			if(localStorage["desktopNotifications"] == 1)
+				$('input[name=desktopNotifications]').attr('checked', true);
+			$('#desktopNotifications').iphoneStyle();
 			$('#setUsername').slideDown('slow');
 		} else {
 			$('#friendsFeed').removeClass('hidden');
+			$('#setUsername').addClass('hidden');
 			chrome.browserAction.setTitle({title: "No Friends Activity"});
 			chrome.browserAction.setBadgeText({text: ""});
 			fetchGowalla();
@@ -17,6 +25,7 @@
 		
 		$("form").submit(function() {
 			localStorage.setItem("gowallaUsername", $("input[name='username']").val());
+			localStorage.setItem("desktopNotifications", $('input[name=desktopNotifications]:checked').val());
 			$('#setUsername').slideUp("fast");
 			$('#friendsFeed').slideDown('slow');
 			fetchGowalla();
@@ -95,10 +104,14 @@
 	</header>
 	
 	<section id="setUsername">
-		<form method="post">
+		<form id="options" name="options" action="" method="post">
 			<label>Gowalla Username:</label><br />
 			<input id="gowallaUsername" type="text" name="username"><br />
-			<input type="submit" value="Save">
+			
+			<label>Desktop Notifications:</label>
+			<input type="checkbox" name="desktopNotifications" value="1" id="desktopNotifications">
+			
+			<input type="submit" value="Save Options" class="button blue">
 		</form>
 	</section>
 	
