@@ -45,6 +45,9 @@
 							  	);
 							}
 							localStorage.notified = 1;
+							notification.ondisplay = function() {
+					        	setTimeout(function () {notification.cancel();}, 8000);
+					        };
 						    notification.show();
 						}
 						
