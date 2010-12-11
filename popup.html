@@ -8,14 +8,18 @@
 	$(document).ready(function() {			
 		if(!localStorage["gowallaUsername"] || localStorage["gowallaUsername"] == "") {
 			$('#friendsFeed').addClass('hidden');
+			$('#yourFeed').addClass('hidden');
 			$('input[name=username]').val(localStorage["gowallaUsername"]);
 			if(localStorage["desktopNotifications"] == 1)
 				$('input[name=desktopNotifications]').attr('checked', true);
 			$('#desktopNotifications').iphoneStyle();
 			$('#setUsername').slideDown('slow');
+			$('header').addClass('large');
 		} else {
 			$('#friendsFeed').removeClass('hidden');
+			$('#yourFeed').removeClass('hidden');
 			$('#setUsername').addClass('hidden');
+			$('header').removeClass('large');
 			chrome.browserAction.setTitle({title: "No Friends Activity"});
 			chrome.browserAction.setBadgeText({text: ""});
 			fetchGowalla();
@@ -26,12 +30,15 @@
 			localStorage.setItem("desktopNotifications", $('input[name=desktopNotifications]:checked').val());
 			$('#setUsername').slideUp("fast");
 			$('#friendsFeed').slideDown('slow');
+			$('#yourFeed').removeClass('hidden');
+			$('header').removeClass('large');
 			fetchGowalla();
 			return false;
 		});
 	});
 	
-	function fetchGowalla() {				
+	function fetchGowalla() {
+		// friends feed				
 		$.ajax({
 			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/friends_visits.atom',
 			success: function(data) {
@@ -42,7 +49,7 @@
 							updated = new Date($(this).find('updated').first().text());	
 										
 						html += '<article>';
-						html += '<figure><img src="'+$(this).find('link').last().attr('href')+'" alt="spot icon" class="itemIcon"></figure>';
+						html += '<figure><img src="'+$(this).find('link:eq(2)').attr('href')+'" alt="spot icon" class="itemIcon"><img src="'+$(this).find('link').last().attr('href')+'" alt="spot icon" class="locationIcon"></figure>';
 						html += '<h2><a href="'+$(this).find('uri').first().text()+'" title="'+$(this).find('name').first().text()+'" target="_blank">'+$(this).find('name').first().text()+'</a></h2>';
 						html += '<p>@<a href="'+$(this).find('link').last().prev().attr('href')+'" title="'+$(this).find('title').last().text()+'" target="_blank">'+$(this).find('title').last().text()+'</a></p>';
 						html += '<span>Checked in '+prettyDate($(this).find('published').first().text())+'</span>';
@@ -55,6 +62,29 @@
 					localStorage.badgeCount = 0;
 				} else {
 					$('#friendsFeed').html('<li>Could not find your friends feed. Please try again or verify your username is correct.</li>');
+				}
+			}
+		});
+		
+		// your feed
+		$.ajax({
+			url: 'http://gowalla.com/users/'+localStorage["gowallaUsername"]+'/checkins.atom',
+			success: function(data) {
+				if(data != null) {
+					html = '';
+					$(data).find('entry').each(function(index) {	
+						if(index == 0) {				
+							html += '<article>';
+							html += '<figure><img src="'+$(this).find('link').last().attr('href')+'" alt="spot icon" class="itemIcon"></figure>';
+							html += ' ';
+							html += ' @<a href="'+$(this).find('link').last().prev().attr('href')+'" title="'+$(this).find('title').last().text()+'" target="_blank">'+$(this).find('title').last().text()+'</a>';
+							html += '<span> '+prettyDate($(this).find('published').first().text())+'</span>';
+							html += '</article>';
+						}
+					});
+					$('#yourFeed').html(html);
+				} else {
+					
 				}
 			}
 		});
@@ -97,8 +127,12 @@
 	];
 	</script>
 <body>
-	<header>
+	<header class="large">
 		<h1><a href="http://gowalla.com" title="Gowalla.com" target="_blank">Gowalla</a></h1>
+		
+		<section id="yourFeed" class="hidden">
+			
+		</section>
 	</header>
 	
 	<section id="setUsername">
@@ -113,7 +147,7 @@
 		</form>
 	</section>
 	
-	<section id="friendsFeed" class="hidden">
+	<section id="friendsFeed">		
 		<article>
 			<p>Loading Friends Feed...</p>
 		</article>

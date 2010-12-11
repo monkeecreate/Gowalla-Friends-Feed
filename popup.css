@@ -1,87 +1,225 @@
+/* @group reset */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}                  
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section { 
+    display:block;
+}
+
+nav ul { list-style:none; }
+
+blockquote, q { quotes:none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after { content:''; content:none; }
+
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; }
+
+ins { background-color:#ff9; color:#000; text-decoration:none; }
+
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
+
+del { text-decoration: line-through; }
+
+abbr[title], dfn[title] { border-bottom:1px dotted; cursor:help; }
+
+/* tables still need cellspacing="0" in the markup */
+table { border-collapse:collapse; border-spacing:0; }
+
+hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
+
+input, select { vertical-align:middle; }
+
+/* @end */
+
+/* @group structure */
+
 body {
 	background: #f5f7f0;
 	width: 350px;
-	margin: 15px;
+	margin: -5px 15px 15px;
+}
+
+#wrapper {
+	margin: 35px 0 0;
+}
+
+/* @end */
+
+/* @group header */
+
+header {
+	margin: 0 0 15px;
+	float: left;
+	width: 335px;
+}
+
+h1 {
+	width: 66px;
+	height: 20px;
+	float: left;
+	margin: 20px 0 0;
 }
 
 h1 a:link, h1 a:active, h1 a:visited {
-	background: url(logo.png) no-repeat 0 0;
+	background: url(logo-small.png) no-repeat 0 0;
 	display: block;
-	width: 154px;
-	height: 47px;
+	width: 66px;
+	height: 20px;
 	text-indent: -99999px;
 	color: #333;
-	margin: 0 auto 15px;
+	margin: 0;
 	text-shadow: rgba(250, 250, 250, 0.6) 2px 2px 0;
+	float: left;
 }
 
-article {
-	background: #fff;
-	margin: 0 15px 15px 0;
-	padding: 8px;
-	-webkit-border-radius: 4px;
-	-webkit-box-shadow: rgba(0, 0, 0, 1);
-	border-radius: 4px;
-	clear: both;
+header.large h1 {
+	width: 154px;
+	height: 47px;
+	float: none;
+	margin: 25px auto 25px;
+}
+
+header.large h1 a {
+	background: url(logo.png) no-repeat 0 0;
+	width: 154px;
+	height: 47px;
+	margin: 0 auto 15px;
+	float: none;
+}
+
+#yourFeed {
+	float: right;
+	margin: 23px 0 0;
+	padding: 0;
+	text-align: left;
+}
+
+#yourFeed article {
+	font-size: 12px;
+	color: #777878;
 	overflow: hidden;
 }
 
-article a:link, article a:active, article a:visited {
+#yourFeed article a:link, #yourFeed article a:active, #yourFeed article a:visited {
 	color: #39B2E5;
 	padding: 1px 2px;
 	text-decoration: none;
 }
 
-article a:hover {
+#yourFeed article a:hover {
 	text-decoration: underline;
 }
 
-article figure {
-	float: left;
-	margin: 0 10px 0 0;
+#yourFeed article figure {
+	display: inline;
+	margin: 0;
 }
 
-article figure img {
-	width: 55px;
+#yourFeed article figure img {
+	width: 13px;
 }
 
-article h2 {
+#yourFeed article span {
+	color: #aaa;
+	font-size: 12px;
+}
+
+/* @end */
+
+/* @group friendsFeed */
+
+#friendsFeed article {
+	margin: 0 15px 15px 0;
+	padding: 8px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	clear: both;
+	overflow: hidden;
+	position: relative;
+	-webkit-transition: all 0.20s ease-in; 
+	transition: all 0.20s ease-in;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5));
+	-webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+#friendsFeed article:hover {
+	-webkit-transform: scale(1.03);
+	-webkit-box-shadow: 4px 4px 1px #d0d0d0;
+	box-shadow: 4px 4px 1px #d0d0d0;
+	-webkit-transition: all 0.20s ease-in; 
+	transition: all 0.20s ease-in;
+}
+
+#friendsFeed article a:link, #friendsFeed article a:active, #friendsFeed article a:visited {
+	color: #39B2E5;
+	padding: 1px 2px;
+	text-decoration: none;
+}
+
+#friendsFeed article a:hover {
+	color: #309fcf;
+}
+
+#friendsFeed article h2 {
 	font-family: Arial, sans-serif;
 	font-size: 20px;
 	margin: 0;
 }
 
-article p {
+#friendsFeed article figure {
+	float: left;
+	margin: 0 10px 0 0;
+	position: relative;
+}
+
+#friendsFeed article figure img {
+	width: 55px;
+}
+
+#friendsFeed article figure img.locationIcon {
+	width: 25px;
+	position: absolute;
+	bottom: -5px;
+	right: -5px;
+}
+
+#friendsFeed article p {
 	font-size: 14px;
 	margin: 0;
 }
 
-article span {
+#friendsFeed article span {
 	color: #aaa;
 	font-size: 12px;
 }
 
-footer {
-	margin: 10px 0;
-}
+/* @end */
 
-footer p {
-	font-size: 12px;
-	color: #999;
-	text-align: center;
-}
-
-footer a:link, footer a:active, footer a:visited {
-	color: #666;
-	text-decoration: none;
-}
-
-footer a:hover {
-	text-decoration: underline;
-}
+/* @group options */
 
 #setUsername {
-	overflow: hidden;
+
 }
 
 form {
@@ -246,6 +384,35 @@ label.iPhoneCheckLabelOff span {
 	background: url('/iphone-style-checkboxes/slider_center.png?1282083753');
 }
 
+/* @end */
+
+/* @group footer */
+
+footer {
+	margin: 10px 0;
+}
+
+footer p {
+	font-size: 12px;
+	color: #999;
+	text-align: center;
+}
+
+footer a:link, footer a:active, footer a:visited {
+	color: #666;
+	text-decoration: none;
+}
+
+footer a:hover {
+	text-decoration: underline;
+}
+
+/* @end */
+
+/* @group misc */
+
 .hidden {
 	display: none;
 }
+
+/* @end */
